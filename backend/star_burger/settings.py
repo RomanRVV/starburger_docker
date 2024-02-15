@@ -9,7 +9,9 @@ env = Env()
 env.read_env()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+PROJECT_DIR = os.path.dirname(BASE_DIR)
+
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'staticfiles')
 
 
 YANDEX_API_KEY = env('YANDEX_API_KEY')
@@ -91,7 +93,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'star_burger.wsgi.application'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(PROJECT_DIR, 'frontend/media')
 MEDIA_URL = '/media/'
 
 DATABASES = {
@@ -133,7 +135,8 @@ INTERNAL_IPS = [
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "assets"),
-    os.path.join(BASE_DIR, "bundles"),
+    os.path.join(PROJECT_DIR, "frontend/bundles"),
 ]
 
 PHONENUMBER_DEFAULT_REGION = 'RU'
+
