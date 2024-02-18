@@ -1,0 +1,12 @@
+FROM python:3.11
+
+WORKDIR /starburger_docker/backend
+
+COPY . .
+
+RUN mkdir -p /starburger_docker/staticfiles/assets
+RUN mkdir -p /starburger_docker/staticfiles/bundles
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+

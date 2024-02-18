@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.frontend
+    volumes:
+      - staticfiles:/starburger_docker/staticfiles
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.backend
+    depends_on:
+      - postgres
+      - frontend
+    environment:
+      SECRET_KEY: ${SECRET_KEY}
+      DEBUG: ${DEBUG-TRUE}
+      DATABASE_URL: ${DATABASE_URL-postgres://postgres:1234@postgres:5432/db}
+      YANDEX_API_KEY: ${YANDEX_API_KEY}
+      ROLLBAR_KEY: ${ROLLBAR_KEY}
+    command: sh -c "python manage.py collectstatic --noinput && python manage.py migrate --noinput && python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8002:8000"
+    volumes:
+      - staticfiles:/starburger_docker/staticfiles
+      - test:/starburger_docker/backend
+      - media:/starburger_docker/media
+
+volumes:
+  staticfiles:
+  media:
+  postgres_data:
+  test:

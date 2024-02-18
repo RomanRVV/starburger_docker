@@ -19,7 +19,9 @@ SECRET_KEY = env('SECRET_KEY')
 DATABASE_URL = env.str('DATABASE_URL')
 DEBUG = env.bool('DEBUG', False)
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', ['127.0.0.1', 'localhost'])
+
+
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', ['127.0.0.1', 'localhost','0.0.0.0',])
 
 INSTALLED_APPS = [
     'foodcartapp.apps.FoodcartappConfig',
@@ -135,7 +137,7 @@ INTERNAL_IPS = [
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "assets"),
-    os.path.join(PROJECT_DIR, "frontend/bundles"),
+    os.path.join(STATIC_ROOT, "bundles"),
 ]
 
 PHONENUMBER_DEFAULT_REGION = 'RU'
