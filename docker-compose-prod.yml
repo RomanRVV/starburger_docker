@@ -4,9 +4,9 @@ services:
   postgres:
     image: postgres:latest
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 3126
-      POSTGRES_DB: new
+      POSTGRES_USER: ${POSTGRES_USER?}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD?}
+      POSTGRES_DB: ${POSTGRES_DB?}
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -24,22 +24,23 @@ services:
       - postgres
       - frontend
     environment:
-      SECRET_KEY: ${SECRET_KEY-django-insecure-0if40nf4nf93n4}
-      DEBUG: ${DEBUG-TRUE}
-      DATABASE_URL: ${DATABASE_URL-postgres://postgres:3126@postgres:5432/new}
-      ALLOWED_HOSTS: ${ALLOWED_HOSTS-127.0.0.1,localhost,0.0.0.0,}
-      YANDEX_API_KEY: ${YANDEX_API_KEY-aeb4fc66-ec45-4981-9bd5-00f2b2e6cdc6}
+      SECRET_KEY: ${SECRET_KEY}
+      DEBUG: ${DEBUG}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS}
+      DATABASE_URL: ${DATABASE_URL}
+      YANDEX_API_KEY: ${YANDEX_API_KEY}
       ROLLBAR_KEY: ${ROLLBAR_KEY}
-    command: sh -c "python manage.py migrate --noinput && python manage.py runserver 0.0.0.0:8000"
+      ROLLBAR_ENVIRONMENT: ${ROLLBAR_ENVIRONMENT}
+    command: sh -c "python manage.py collectstatic --noinput && python manage.py migrate --noinput && python manage.py runserver 0.0.0.0:8000"
     ports:
       - "8002:8000"
     volumes:
       - staticfiles:/starburger_docker/staticfiles
       - test:/starburger_docker/backend
-      - mediadir:/starburger_docker/media
+      - media:/starburger_docker/media
 
 volumes:
-  staticdir:
-  mediadir:
+  staticfiles:
+  media:
   postgres_data:
   test:
