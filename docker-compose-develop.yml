@@ -25,7 +25,7 @@ services:
       - frontend
     environment:
       SECRET_KEY: ${SECRET_KEY}
-      DEBUG: ${DEBUG-TRUE}
+      DEBUG: ${DEBUG}
       DATABASE_URL: ${DATABASE_URL-postgres://postgres:1234@postgres:5432/db}
       YANDEX_API_KEY: ${YANDEX_API_KEY}
       ROLLBAR_KEY: ${ROLLBAR_KEY}
